@@ -1,10 +1,10 @@
 'use strict'
 
-angular.module('appApp', [])
+angular.module('app', [])
   .config ($routeProvider) ->
     $routeProvider
       .when '/',
         templateUrl: 'views/main.html'
-        controller: 'MainCtrl'
+        controller: 'MainController'
       .otherwise
         redirectTo: '/'
