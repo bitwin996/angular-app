@@ -1,19 +1,19 @@
 'use strict'
 
-describe 'Controller: MainController', () ->
+describe 'Controller: LoginController', () ->
 
   # load the controller's module
   beforeEach module 'findPlayApp'
 
-  MainController = {}
+  LoginController = {}
   scope = {}
 
   # Initialize the controller and a mock scope
   beforeEach inject ($controller, $rootScope) ->
     scope = $rootScope.$new()
-    MainController = $controller 'MainController', {
+    LoginController = $controller 'LoginController', {
       $scope: scope
     }
 
-  it 'should attach a list of awesomeThings to the scope', () ->
+  xit 'should attach a list of awesomeThings to the scope', () ->
     expect(scope.awesomeThings.length).toBe 3

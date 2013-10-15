@@ -1,0 +1,24 @@
+.row-fluid
+  .span3
+    ul.auth-social
+      li
+        a.btn(href="/auth/facebook") facebook
+
+
+  .span9
+    form.auth-email(ng-submit="login()")
+      .control-group
+        label.control-label(for="email") Email
+        .controls
+          input(type="text", name="email", ng-model="credentials.email", placeholder="Email", required)
+
+      .control-group
+        label.control-label(for="password") Password
+        .controls
+          input(type="password", name="password", ng-model="credentials.password", placeholder="Password", required)
+
+      .control-group
+        .controls
+          input(type="submit", value="Submit")
+
+
