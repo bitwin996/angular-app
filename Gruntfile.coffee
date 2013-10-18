@@ -61,7 +61,7 @@ module.exports = (grunt) ->
         files: [
           "<%= yeoman.app %>/{,*/}*.html"
           #"{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css"
-          ".tmp/styles/{,*/}*.css"
+          "{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css"
           "{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js"
           "<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
         ]
@@ -185,9 +185,9 @@ module.exports = (grunt) ->
     
     # not used since Uglify task does concat,
     # but still available if needed
-    #concat: {
-    #      dist: {}
-    #    },
+    concat:
+      dist: {}
+
     rev:
       dist:
         files:
@@ -227,7 +227,8 @@ module.exports = (grunt) ->
           dest: "<%= yeoman.dist %>/images"
         ]
 
-    cssmin: {}
+    cssmin:
+      dist: {}
     
     # By default, your `index.html` <!-- Usemin Block --> will take care of
     # minification. This option is pre-configured if you do not wish to use
@@ -372,10 +373,6 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask "test:unit", [
-    #"clean:server"
-    #"concurrent:test"
-    #"autoprefixer"
-    #"connect:test"
     "test:common"
     "karma:unit"
   ]
@@ -386,10 +383,6 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask "test:e2e", [
-    #"clean:server"
-    #"concurrent:test"
-    #"autoprefixer"
-    #"connect:test"
     "test:common"
     "karma:e2e"
   ]
@@ -409,6 +402,11 @@ module.exports = (grunt) ->
     "usemin"
   ]
 
+  grunt.registerTask "deploy", ->
+    grunt.config.set 'yeoman.dist', 'backend/public'
+    #console.log grunt.config.get 'yeoman'
+    return grunt.task.run ["build"]
+    
   grunt.registerTask "default", [
     "jshint"
     "test"

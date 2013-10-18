@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('findPlayApp')
   .factory 'AuthenticationService', ['$location', ($location) ->

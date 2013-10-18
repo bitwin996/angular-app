@@ -1,7 +1,10 @@
 'use strict'
 
 angular.module('findPlayApp', [])
-  .config ['$routeProvider', ($routeProvider) ->
+  .config ['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
+
+    $locationProvider.html5Mode true
+
     $routeProvider
       .when '/login',
         templateUrl: 'views/auth/login.html'
