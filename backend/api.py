@@ -16,13 +16,13 @@
 #
 
 import logging
-
 import endpoints
 from protorpc import remote,messages,message_types
 
 from messages import LoginMessage
 from models import User,UserMessage
 
+from fixtures import FixturesApi
 
 # URL: /_ah/api/find-play/v1
 @endpoints.api(name='find-play', version='v1', description='FindPlay API')
@@ -47,6 +47,8 @@ class FindPlayApi(remote.Service):
 
     return user.toMessage()
 
+
+app = endpoints.api_server([FindPlayApi, FixturesApi], restricted=False)
 
 
 
@@ -74,5 +76,3 @@ class FindPlayApi(remote.Service):
     return user.toMessage()
 """
 
-
-app = endpoints.api_server([FindPlayApi], restricted=False)
