@@ -16,28 +16,39 @@
 #
 
 import logging
-#from google.appengine.ext import endpoints
+
 import endpoints
 from protorpc import remote,messages,message_types
 
-#from account import User,Account
-
-
-class LoginMessage(messages.Message):
-  isAuth = messages.BooleanField(1, required=True)
+from messages import LoginMessage
+from models import User,UserMessage
 
 
 # URL: /_ah/api/find-play/v1
 @endpoints.api(name='find-play', version='v1', description='FindPlay API')
 class FindPlayApi(remote.Service):
 
-  # URL: /_ah/api/find-play/v1/login
-  @endpoints.method(message_types.VoidMessage, LoginMessage, path='login', http_method='GET')
+  # URL: /_ah/api/find-play/v1/auth/login
+  @endpoints.method(message_types.VoidMessage, LoginMessage, path='auth/login', http_method='GET')
   def get_login(self, request):
     result = LoginMessage(
       isAuth = True
       )
     return result
+
+  # URL: /_ah/api/find-play/v1/test/user
+  @endpoints.method(message_types.VoidMessage, UserMessage, path='test/user', http_method='GET')
+  def get_test_user(self, request):
+    user = User(
+      name = 'test user',
+      email = 'test@gmail.com'
+      )
+    user.put()
+
+    return user.toMessage()
+
+
+
 
 """
   # URL: /_ah/api/find-play/v1/account

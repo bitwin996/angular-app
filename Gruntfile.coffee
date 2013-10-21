@@ -183,6 +183,28 @@ module.exports = (grunt) ->
           ext: ".css"
         ]
     
+    'string-replace':
+      dev:
+        files:
+          '.tmp/scripts/app.js': '.tmp/scripts/app.js'
+
+        options:
+          replacements: [
+            pattern: '$API_ROOT_URL'
+            replacement: "http://localhost:8080/_ah/api/find-play/v1"
+          ]
+
+      pro:
+        files:
+          '.tmp/scripts/app.js': '.tmp/scripts/app.js'
+
+        options:
+          replacements: [
+            pattern: '$API_ROOT_URL'
+            replacement: "http://localhost:8080/_ah/api/find-play/v1"
+          ]
+
+
     # not used since Uglify task does concat,
     # but still available if needed
     concat:
@@ -359,6 +381,7 @@ module.exports = (grunt) ->
     grunt.task.run [
       "clean:server"
       "concurrent:server"
+      "env:dev"
       "autoprefixer"
       "connect:livereload"
       "open"
@@ -368,6 +391,7 @@ module.exports = (grunt) ->
   grunt.registerTask "test:common", [
     "clean:server"
     "concurrent:test"
+    "env:dev"
     "autoprefixer"
     "connect:test"
   ]
@@ -391,6 +415,7 @@ module.exports = (grunt) ->
     "clean:dist"
     "useminPrepare"
     "concurrent:dist"
+    "env:pro"
     "autoprefixer"
     "concat"
     "copy:dist"
@@ -406,6 +431,10 @@ module.exports = (grunt) ->
     grunt.config.set 'yeoman.dist', 'backend/public'
     #console.log grunt.config.get 'yeoman'
     return grunt.task.run ["build"]
+
+  grunt.registerTask "env", (target) ->
+    target = "dev" unless target
+    return grunt.task.run ["string-replace:" + target]
     
   grunt.registerTask "default", [
     "jshint"

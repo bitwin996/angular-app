@@ -28,7 +28,8 @@
     "grunt-ngmin": "~0.0.2",
     "time-grunt": "~0.1.0",
     "grunt-contrib-jade": "~0.8.0",
-    "grunt-contrib-stylus": "~0.8.0"
+    "grunt-contrib-stylus": "~0.8.0",
+    "grunt-string-replace": "~0.2.4"
   },
   "engines": {
     "node": ">=0.8.0"
