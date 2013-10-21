@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import logging
 import endpoints
 from protorpc import remote,messages,message_types
 
@@ -19,13 +18,10 @@ class FixturesApi(remote.Service):
     users = []
     for i in range(10):
       user = User(
-        name = 'test ' + str(i),
-        email = 'test_' + str(i) + '@gmail.com'
+        email = 'test_' + str(i) + '@gmail.com',
+        password = 'test' + str(i)
         )
       user.put()
       users.append(user.toMessage())
 
     return UsersMessage(users=users)
-
-
-#app = endpoints.api_server([FixturesApi], restricted=False)

@@ -15,15 +15,25 @@
 # limitations under the License.
 #
 
-import logging
 import endpoints
 from protorpc import remote,messages,message_types
 
 from messages import LoginMessage
 from models import User,UserMessage
 
+
+from auth import AuthApi
 from fixtures import FixturesApi
 
+apis = [
+    AuthApi,
+    FixturesApi
+    ]
+
+app = endpoints.api_server(apis, restricted=False)
+
+
+"""
 # URL: /_ah/api/find-play/v1
 @endpoints.api(name='find-play', version='v1', description='FindPlay API')
 class FindPlayApi(remote.Service):
@@ -40,19 +50,14 @@ class FindPlayApi(remote.Service):
   @endpoints.method(message_types.VoidMessage, UserMessage, path='test/user', http_method='GET')
   def get_test_user(self, request):
     user = User(
-      name = 'test user',
-      email = 'test@gmail.com'
+      email = 'test@gmail.com',
+      password = 'test'
       )
     user.put()
 
     return user.toMessage()
 
 
-app = endpoints.api_server([FindPlayApi, FixturesApi], restricted=False)
-
-
-
-"""
   # URL: /_ah/api/find-play/v1/account
   @endpoints.method(Account, Account, path='account', http_method='GET')
   def get_account(self, request):
