@@ -12,6 +12,10 @@ class LoginRequest(messages.Message):
 
 class AuthResponse(messages.Message):
   authenticated = messages.BooleanField(1, required=True)
+  flash = messages.StringField(2, required=False)
+
+class LogoutResponse(messages.Message):
+  flash = messages.StringField(1, required=False)
 
 
 # URL: /_ah/api/auth/v1
@@ -24,12 +28,31 @@ class AuthApi(remote.Service):
   #  password = messages.StringField(2, required=True)
   #  )
 
+  #LOGIN_RESPONSE = endpoints.ResourceContainer(
+  #    UserMessage,
+  #    flash = messages.StringField(1, required=False)
+  #    )
+
   # URL: /_ah/api/auth/v1/login
-  @endpoints.method(LoginRequest, AuthResponse, path='login', http_method='POST')
+  @endpoints.method(LoginRequest, UserMessage, path='login', http_method='POST')
   def post_login(self, request):
     query = User.query(
         User.email == request.email,
         User.password == request.password)
 
     authenticated = query.count() > 0
-    return AuthResponse(authenticated = authenticated)
+    response = AuthResponse(authenticated = authenticated)
+
+    if authenticated:
+      user = query.get()
+      return user.toMessage()
+    else:
+      raise endpoints.NotFoundException('Invalid username or password')
+
+  # URL: /_ah/api/auth/v1/logout
+  @endpoints.method(message_types.VoidMessage, LogoutResponse, path='logout', http_method='GET')
+  def get_logout(self, request):
+    return LogoutResponse(
+        flash = 'Logged Out!!'
+        )
+

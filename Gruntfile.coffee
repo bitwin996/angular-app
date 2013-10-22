@@ -36,7 +36,7 @@ module.exports = (grunt) ->
     watch:
       coffee:
         files: ["<%= yeoman.app %>/scripts/{,*/}*.coffee"]
-        tasks: ["coffee:dist"]
+        tasks: ["coffee:dist", "env:dev"]
 
       jade:
         files: ["<%= yeoman.app %>/{,**/}*.jade"]
@@ -191,7 +191,7 @@ module.exports = (grunt) ->
         options:
           replacements: [
             pattern: '$API_ROOT_URL'
-            replacement: "http://localhost:8080/_ah/api/find-play/v1"
+            replacement: "http://localhost:8080/_ah/api"
           ]
 
       pro:
@@ -201,7 +201,7 @@ module.exports = (grunt) ->
         options:
           replacements: [
             pattern: '$API_ROOT_URL'
-            replacement: "http://localhost:8080/_ah/api/find-play/v1"
+            replacement: "http://localhost:8080/_ah/api"
           ]
 
 
@@ -318,17 +318,20 @@ module.exports = (grunt) ->
     concurrent:
       server: [
         "coffee:dist"
+        "env:dev"
         "jade:dist"
         "stylus:dist"
         "copy:styles"
       ]
       test: [
         "coffee"
+        "env:dev"
         "jade"  # "jade:dist"
         "copy:styles"
       ]
       dist: [
         "coffee"
+        "env:pro"
         "jade"
         "stylus"
         "copy:styles"
@@ -381,7 +384,7 @@ module.exports = (grunt) ->
     grunt.task.run [
       "clean:server"
       "concurrent:server"
-      "env:dev"
+      #"env:dev"
       "autoprefixer"
       "connect:livereload"
       "open"
@@ -391,7 +394,7 @@ module.exports = (grunt) ->
   grunt.registerTask "test:common", [
     "clean:server"
     "concurrent:test"
-    "env:dev"
+    #"env:dev"
     "autoprefixer"
     "connect:test"
   ]
@@ -415,7 +418,7 @@ module.exports = (grunt) ->
     "clean:dist"
     "useminPrepare"
     "concurrent:dist"
-    "env:pro"
+    #"env:pro"
     "autoprefixer"
     "concat"
     "copy:dist"

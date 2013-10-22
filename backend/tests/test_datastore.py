@@ -24,7 +24,6 @@ def GetEntityViaMemcache(entity_key):
   return entity
 
 
-
 class DemoTestCase(unittest.TestCase):
 
   def setUp(self):
