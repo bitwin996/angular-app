@@ -1,4 +1,7 @@
-.alert-box {{ message }}
+.alert
+  //button.close(type="button", data-dismiss="alert") &times;
+  a.close(href="#", data-dismiss="alert") &times;
+  {{ flash }}
 
 a.btn(ng-click="logout()") Logout
 
@@ -6,6 +9,6 @@ a.btn(ng-click="logout()") Logout
   h1 'Allo, 'Allo!
   p You now have
   ul
-    li(ng-repeat='thing in awesomeThings') {{thing}}
+    li(ng-repeat='thing in awesomeThings') {{ thing }}
   p installed.
   h3 Enjoy coding! - Yeoman

@@ -7,6 +7,11 @@
 
   .span9
     form.auth-email(ng-submit="login()")
+      .alert
+        //button.close(type="button", data-dismiss="alert") &times;
+        a.close(href="#", data-dismiss="alert") &times;
+        {{ flash }}
+
       .control-group
         label.control-label(for="email") Email
         .controls
