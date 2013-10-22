@@ -7,7 +7,7 @@ angular.module('findPlayApp', [])
   .config(['$routeProvider', '$locationProvider',
     ($routeProvider, $locationProvider) ->
 
-      $locationProvider.html5Mode true
+      #$locationProvider.html5Mode true
 
       $routeProvider
         .when '/login',
@@ -17,14 +17,18 @@ angular.module('findPlayApp', [])
           templateUrl: 'views/main.html'
           controller: 'MainController'
         .otherwise
-          redirectTo: '#/login'
+          redirectTo: '/login'
   ])
 
   .run(['$rootScope', '$location', 'AuthenticationService',
     ($rootScope, $location, AuthenticationService) ->
+      routesThatRequireAuth = ['/']
+
       $rootScope.$on '$routeChangeStart', (event, next, current) ->
-        routesThatRequireAuth = ['/home']
+        #TODO
+        #console.log $rootScope.$$phase
+        #debugger
         if $location.path() in routesThatRequireAuth and not AuthenticationService.isLoggedIn()
-          $location.path '#/login'
+          $location.path '/login'
   ])
 

@@ -7,9 +7,9 @@ from models import User,UserMessage
 import logging
 
 
-#class LoginRequest(messages.Message):
-#  email = messages.StringField(1, required=True)
-#  password = messages.StringField(2, required=False)
+class LoginRequest(messages.Message):
+  email = messages.StringField(1, required=True)
+  password = messages.StringField(2, required=False)
 
 class AuthResponse(messages.Message):
   authenticated = messages.BooleanField(1, required=True)

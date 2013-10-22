@@ -1,17 +1,27 @@
 'use strict'
 
 angular.module('findPlayApp')
-  .factory 'AuthenticationService', ['$http', '$location', 'apiRootUrl', ($http, $location, apiRootUrl) ->
-    # Public API here
-    login: (credentials) ->
-      #if credentials.email is 'test@gmail.com'
-      #  $location.path '/'
-      #return $http.post '/auth/login', credentials
-      return $http.post apiRootUrl + '/auth/v1/login', credentials
+  .factory 'AuthenticationService', [
+    '$http', '$location', 'SessionService', 'apiRootUrl',
+    ($http, $location, SessionService, apiRootUrl) ->
 
-    logout: ->
-      #$location.path '/login'
-      #return $http.get '/auth/logout'
-      return $http.get apiRootUrl + '/auth/v1/logout'
+      # Service logic
+      cacheSession = ->
+        SessionService.set 'authenticated', true
+
+      uncacheSession = ->
+        SessionService.unset 'authenticated'
+
+      # Public API here
+      login: (credentials) ->
+        login = $http.post apiRootUrl + '/auth/v1/login', credentials
+        login.success cacheSession
+
+      logout: ->
+        logout = $http.get apiRootUrl + '/auth/v1/logout'
+        logout.success uncacheSession
+
+      isLoggedIn: ->
+        return SessionService.get 'authenticated'
 
   ]
