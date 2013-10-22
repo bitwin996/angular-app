@@ -20,8 +20,8 @@ angular.module('findPlayApp', [])
           redirectTo: '/login'
   ])
 
-  .run(['$rootScope', '$location', 'AuthenticationService',
-    ($rootScope, $location, AuthenticationService) ->
+  .run(['$rootScope', '$location', 'AuthenticationService', 'FlashService',
+    ($rootScope, $location, AuthenticationService, FlashService) ->
       routesThatRequireAuth = ['/']
 
       $rootScope.$on '$routeChangeStart', (event, next, current) ->
@@ -30,5 +30,6 @@ angular.module('findPlayApp', [])
         #debugger
         if $location.path() in routesThatRequireAuth and not AuthenticationService.isLoggedIn()
           $location.path '/login'
+          FlashService.show "Please log in to continue."
   ])
 

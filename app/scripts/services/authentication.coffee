@@ -2,8 +2,8 @@
 
 angular.module('findPlayApp')
   .factory 'AuthenticationService', [
-    '$http', '$location', 'SessionService', 'apiRootUrl',
-    ($http, $location, SessionService, apiRootUrl) ->
+    '$http', '$location', 'SessionService', 'FlashService', 'apiRootUrl',
+    ($http, $location, SessionService, FlashService, apiRootUrl) ->
 
       # Service logic
       cacheSession = ->
@@ -12,10 +12,15 @@ angular.module('findPlayApp')
       uncacheSession = ->
         SessionService.unset 'authenticated'
 
+      loginError = (response) ->
+        FlashService.show response.error.message
+
       # Public API here
       login: (credentials) ->
         login = $http.post apiRootUrl + '/auth/v1/login', credentials
         login.success cacheSession
+        login.success FlashService.clear
+        login.error loginError
 
       logout: ->
         logout = $http.get apiRootUrl + '/auth/v1/logout'

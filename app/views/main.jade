@@ -1,6 +1,6 @@
-.alert
+.alert.alert-error(ng-show="flash")
   //button.close(type="button", data-dismiss="alert") &times;
-  a.close(href="#", data-dismiss="alert") &times;
+  //a.close(href="#", data-dismiss="alert") &times;
   {{ flash }}
 
 a.btn(ng-click="logout()") Logout
