@@ -37,11 +37,12 @@ class AuthApi(remote.Service):
   @endpoints.method(message_types.VoidMessage, LogoutResponse, path='logout', http_method='GET')
   def get_logout(self, request):
     Auth.logout()
-    #session = get_current_session()
-    #user_id = session.pop('user_id')
-    #logging.info(user_id)
+    return LogoutResponse(flash = 'Logged Out!!')
 
-    return LogoutResponse(
-        flash = 'Logged Out!!'
-        )
+
+  # URL: /_ah/api/auth/v1/expiry
+  @endpoints.method(message_types.VoidMessage, LogoutResponse, path='expiry', http_method='GET')
+  def get_expiry(self, request):
+    return LogoutResponse(flash = 'all is good')
+    #raise endpoints.UnauthorizedException('Your session has expired, please log in.')
 
