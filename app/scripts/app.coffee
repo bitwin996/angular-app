@@ -4,6 +4,10 @@ angular.module('findPlayApp', [])
   .constant('apiRootUrl', "$API_ROOT_URL")
   #.constant 'apiRootUrl', "http://localhost:8080/_ah/api/find-play/v1"
 
+  #.config(['$httpProvider', ($httpProvider) ->
+  #  delete $httpProvider.defaults.headers.common["X-Requested-With"]
+  #])
+
   .config(['$routeProvider', 'apiRootUrl', ($routeProvider, apiRootUrl) ->
 
     #$locationProvider.html5Mode true

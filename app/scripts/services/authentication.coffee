@@ -27,6 +27,6 @@ angular.module('findPlayApp')
         logout.success uncacheSession
 
       isLoggedIn: ->
-        return SessionService.get 'authenticated'
+        SessionService.get 'authenticated'
 
   ]

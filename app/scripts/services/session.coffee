@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('findPlayApp')
-  .factory 'SessionService', () ->
+  .factory 'SessionService', ->
     # Public API here
     {
       get: (key) ->

@@ -36,11 +36,12 @@ module.exports = (grunt) ->
     watch:
       coffee:
         files: ["<%= yeoman.app %>/scripts/{,*/}*.coffee"]
-        tasks: ["coffee:dist", "env:dev"]
+        tasks: ["coffee:dist", "env"]
 
       jade:
         files: ["<%= yeoman.app %>/{,**/}*.jade"]
-        tasks: ["jade:dist"]
+        #tasks: ["jade:dist"]
+        tasks: ["jade"]
 
       stylus:
         files: ["<%= yeoman.app %>/{,*/}*.styl"]
@@ -166,9 +167,21 @@ module.exports = (grunt) ->
       dist:
         files: [
           expand: true
+          cwd: "<%= yeoman.app %>/views"
+          src: "{,*/}*.jade"
+          #src: "{,**/}*.jade"
+          dest: ".tmp/views"
+          ext: ".html"
+        ]
+
+      index:
+        options:
+          pretty: true  # for collapse comment for uglify
+
+        files: [
+          expand: true
           cwd: "<%= yeoman.app %>"
-          #src: "{,*/}*.jade"
-          src: "{,**/}*.jade"
+          src: "index.jade"
           dest: ".tmp"
           ext: ".html"
         ]
@@ -184,6 +197,16 @@ module.exports = (grunt) ->
         ]
     
     'string-replace':
+      default:
+        files:
+          '.tmp/scripts/app.js': '.tmp/scripts/app.js'
+
+        options:
+          replacements: [
+            pattern: '$API_ROOT_URL'
+            replacement: "/_ah/api"
+          ]
+
       dev:
         files:
           '.tmp/scripts/app.js': '.tmp/scripts/app.js'
@@ -201,14 +224,26 @@ module.exports = (grunt) ->
         options:
           replacements: [
             pattern: '$API_ROOT_URL'
-            replacement: "http://localhost:8080/_ah/api"
+            replacement: "https://curious-subject-248.appspot.com/_ah/api"
           ]
 
 
     # not used since Uglify task does concat,
     # but still available if needed
     concat:
-      dist: {}
+      modules:
+        src: [
+          "<%= yeoman.app %>/bower_components/angular-resource/angular-resource.js"
+          "<%= yeoman.app %>/bower_components/angular-cookies/angular-cookies.js"
+          "<%= yeoman.app %>/bower_components/angular-sanitize/angular-sanitize.js"
+        ]
+        dest: "<%= yeoman.dist %>/scripts/modules.js"
+
+      scripts:
+        src: [
+          ".tmp/scripts/**/*.js"
+        ]
+        dest: "<%= yeoman.dist %>/scripts/scripts.js"
 
     rev:
       dist:
@@ -250,32 +285,29 @@ module.exports = (grunt) ->
         ]
 
     cssmin:
-      dist: {}
-    
-    # By default, your `index.html` <!-- Usemin Block --> will take care of
-    # minification. This option is pre-configured if you do not wish to use
-    # Usemin blocks.
-    # dist: {
-    #   files: {
-    #     '<%= yeoman.dist %>/styles/main.css': [
-    #       '.tmp/styles/{,*/}*.css',
-    #       '<%= yeoman.app %>/styles/{,*/}*.css'
-    #     ]
-    #   }
-    # }
+      # By default, your `index.html` <!-- Usemin Block --> will take care of
+      # minification. This option is pre-configured if you do not wish to use
+      # Usemin blocks.
+      dist:
+        files:
+          '<%= yeoman.dist %>/styles/main.css': [
+            '.tmp/styles/{,*/}*.css'
+            '<%= yeoman.app %>/styles/{,*/}*.css'
+          ]
+
     htmlmin:
       dist:
         options: {}
-        
-        #removeCommentsFromCDATA: true,
-        #          // https://github.com/yeoman/grunt-usemin/issues/44
-        #          //collapseWhitespace: true,
-        #          collapseBooleanAttributes: true,
-        #          removeAttributeQuotes: true,
-        #          removeRedundantAttributes: true,
-        #          useShortDoctype: true,
-        #          removeEmptyAttributes: true,
-        #          removeOptionalTags: true
+          #removeCommentsFromCDATA: true,
+          # #https://github.com/yeoman/grunt-usemin/issues/44
+          # #collapseWhitespace: true,
+          #collapseBooleanAttributes: true,
+          #removeAttributeQuotes: true,
+          #removeRedundantAttributes: true,
+          #useShortDoctype: true,
+          #removeEmptyAttributes: true,
+          #removeOptionalTags: true
+
         files: [
           expand: true
           cwd: "<%= yeoman.app %>"
@@ -307,6 +339,17 @@ module.exports = (grunt) ->
           cwd: ".tmp/images"
           dest: "<%= yeoman.dist %>/images"
           src: ["generated/*"]
+        ,
+          # for compiled files (jade, stylus)
+          expand: true
+          cwd: ".tmp"
+          dest: "<%= yeoman.dist %>"
+          src: [
+            "index.html"
+            "scripts/**/*"
+            "views/**/*"
+            "styles/**/*"
+          ]
         ]
 
       styles:
@@ -318,20 +361,18 @@ module.exports = (grunt) ->
     concurrent:
       server: [
         "coffee:dist"
-        "env:dev"
-        "jade:dist"
+        #"jade:dist"
+        "jade"
         "stylus:dist"
         "copy:styles"
       ]
       test: [
         "coffee"
-        "env:dev"
         "jade"  # "jade:dist"
         "copy:styles"
       ]
       dist: [
         "coffee"
-        "env:pro"
         "jade"
         "stylus"
         "copy:styles"
@@ -374,6 +415,24 @@ module.exports = (grunt) ->
             "<%= yeoman.dist %>/scripts/scripts.js"
           ]
 
+      #dist:
+      #  options:
+      #    sourceMap: (fileName) ->
+      #      fileName.replace /\.js$/, '.js.map'
+
+      #  files:
+      #    "<%= yeoman.dist %>/scripts/scripts.js": [
+      #      ".tmp/scripts/app.js"
+      #      ".tmp/scripts/services/**/*.js"
+      #      ".tmp/scripts/controllers/**/*.js"
+      #    ]
+      #    "<%= yeoman.dist %>/scripts/modules.js": [
+      #      "<%= yeoman.app %>/bower_components/angular-resource/angular-resource.js"
+      #      "<%= yeoman.app %>/bower_components/angular-cookies/angular-cookies.js"
+      #      "<%= yeoman.app %>/bower_components/angular-sanitize/angular-sanitize.js"
+      #    ]
+
+
   grunt.registerTask "server", (target) ->
     return grunt.task.run [
       "build"
@@ -384,7 +443,7 @@ module.exports = (grunt) ->
     grunt.task.run [
       "clean:server"
       "concurrent:server"
-      #"env:dev"
+      "env"
       "autoprefixer"
       "connect:livereload"
       "open"
@@ -394,7 +453,7 @@ module.exports = (grunt) ->
   grunt.registerTask "test:common", [
     "clean:server"
     "concurrent:test"
-    #"env:dev"
+    "env"
     "autoprefixer"
     "connect:test"
   ]
@@ -418,26 +477,26 @@ module.exports = (grunt) ->
     "clean:dist"
     "useminPrepare"
     "concurrent:dist"
-    #"env:pro"
+    "env"
     "autoprefixer"
     "concat"
     "copy:dist"
     "cdnify"
     "ngmin"
     "cssmin"
-    "uglify"
+    #"uglify"
     "rev"
     "usemin"
   ]
 
   grunt.registerTask "deploy", ->
     grunt.config.set 'yeoman.dist', 'backend/public'
-    #console.log grunt.config.get 'yeoman'
     return grunt.task.run ["build"]
 
-  grunt.registerTask "env", (target) ->
-    target = "dev" unless target
-    return grunt.task.run ["string-replace:" + target]
+  grunt.registerTask "env", ->
+    env = grunt.option 'env'
+    env = "default" unless env
+    return grunt.task.run ["string-replace:" + env]
     
   grunt.registerTask "default", [
     "jshint"

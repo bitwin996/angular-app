@@ -7,6 +7,9 @@ from lib.auth import Auth
 
 import logging
 
+from inspect import getmembers
+from pprint import pprint
+
 
 class LoginRequest(messages.Message):
   email = messages.StringField(1, required=True)
@@ -27,6 +30,10 @@ class AuthApi(remote.Service):
   # URL: /_ah/api/auth/v1/login
   @endpoints.method(LoginRequest, UserMessage, path='login', http_method='POST')
   def post_login(self, request):
+    #self.response.headers['Access-Control-Allow-Origin'] = '*'
+    #self.response.headers['Access-Control-Allow-Methods'] = '*'
+    #pprint (vars(self))
+
     if Auth.attempt({'email':request.email, 'password':request.password}):
       return Auth.user().toMessage()
     else:
