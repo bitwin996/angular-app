@@ -60,7 +60,7 @@ class FixturesApi(remote.Service):
   def seed_reservation(self, i):
     day_1 = 60 * 60 * 24
     reservation = Reservation(
-      user = self.seed_user(i),
+      organizer = self.seed_user(i),
       started_at = datetime.datetime.now() + datetime.timedelta(days=1),
       finished_at = datetime.datetime.now() + datetime.timedelta(days=2),
       place = 'test place ' + str(i)

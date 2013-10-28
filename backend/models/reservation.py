@@ -31,7 +31,6 @@ class Reservation(ndb.Model):
   updated_at = ndb.DateTimeProperty(required=False, auto_now=True)
 
   def toMessage(self):
-    pprint(self.organizer)
     message = ReservationMessage(
       id = self.key.urlsafe(),
       organizer = self.organizer.toMessage() if self.organizer else None,

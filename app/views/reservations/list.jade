@@ -1,0 +1,4 @@
+ul.reservations
+  li.well.well-large(ng-repeat="reservation in reservations")
+    {{ reservation.started_at | date:'ha MMM.d.yyyy' }} at {{ reservation.place}}
+

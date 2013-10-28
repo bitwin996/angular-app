@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('findPlayApp')
-  .controller 'LoginController', [
+  .controller 'AuthLoginController', [
     '$scope', '$location', 'AuthenticationService',
     ($scope, $location, AuthenticationService) ->
       window.scope = $scope

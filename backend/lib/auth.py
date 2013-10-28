@@ -28,6 +28,12 @@ class Auth():
 
 
   @classmethod
+  def check(self):
+    session = get_current_session()
+    return session.has_key('user_id')
+
+
+  @classmethod
   def user(self):
     session = get_current_session()
     user_id = session.get('user_id')

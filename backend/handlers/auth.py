@@ -3,6 +3,7 @@ from protorpc import remote,messages,message_types
 from gaesessions import get_current_session
 
 from models.user import User,UserMessage
+from models.auth import AuthResponse,LogoutResponse
 from lib.auth import Auth
 
 import logging
@@ -14,13 +15,6 @@ from pprint import pprint
 class LoginRequest(messages.Message):
   email = messages.StringField(1, required=True)
   password = messages.StringField(2, required=False)
-
-class AuthResponse(messages.Message):
-  authenticated = messages.BooleanField(1, required=True)
-  flash = messages.StringField(2, required=False)
-
-class LogoutResponse(messages.Message):
-  flash = messages.StringField(1, required=False)
 
 
 # URL: /_ah/api/auth/v1
@@ -48,8 +42,10 @@ class AuthApi(remote.Service):
 
 
   # URL: /_ah/api/auth/v1/expiry
+  # Obsoleted
   @endpoints.method(message_types.VoidMessage, LogoutResponse, path='expiry', http_method='GET')
   def get_expiry(self, request):
+    #TODO
     return LogoutResponse(flash = 'all is good')
     #raise endpoints.UnauthorizedException('Your session has expired, please log in.')
 

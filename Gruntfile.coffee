@@ -35,7 +35,7 @@ module.exports = (grunt) ->
 
     watch:
       coffee:
-        files: ["<%= yeoman.app %>/scripts/{,*/}*.coffee"]
+        files: ["<%= yeoman.app %>/scripts/{,**/}*.coffee"]
         tasks: ["coffee:dist", "env"]
 
       jade:
@@ -44,7 +44,7 @@ module.exports = (grunt) ->
         tasks: ["jade"]
 
       stylus:
-        files: ["<%= yeoman.app %>/{,*/}*.styl"]
+        files: ["<%= yeoman.app %>/styles/{,**/}*.styl"]
         tasks: ["stylus:dist"]
 
       coffeeTest:
@@ -149,7 +149,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "<%= yeoman.app %>/scripts"
-          src: "{,*/}*.coffee"
+          src: "{,**/}*.coffee"
           dest: ".tmp/scripts"
           ext: ".js"
         ]
@@ -158,7 +158,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "test/spec"
-          src: "{,*/}*.coffee"
+          src: "{,**/}*.coffee"
           dest: ".tmp/spec"
           ext: ".js"
         ]
@@ -207,7 +207,7 @@ module.exports = (grunt) ->
             replacement: "/_ah/api"
           ]
 
-      dev:
+      grunt:
         files:
           '.tmp/scripts/app.js': '.tmp/scripts/app.js'
 
@@ -217,7 +217,7 @@ module.exports = (grunt) ->
             replacement: "http://localhost:8080/_ah/api"
           ]
 
-      pro:
+      gae:
         files:
           '.tmp/scripts/app.js': '.tmp/scripts/app.js'
 

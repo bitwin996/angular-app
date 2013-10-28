@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('findPlayApp', [])
+angular.module('findPlayApp', ['ngSanitize'])
   .constant('apiRootUrl', "$API_ROOT_URL")
   #.constant 'apiRootUrl', "http://localhost:8080/_ah/api/find-play/v1"
 
@@ -13,22 +13,31 @@ angular.module('findPlayApp', [])
     #$locationProvider.html5Mode true
 
     $routeProvider
+      .when '/reservations',
+        templateUrl: 'views/reservations/list.html'
+        controller: 'ReservationsListController'
+        resolve:
+          reservations: ($http) ->
+            $http.get apiRootUrl + '/reservations/v1/query'
+
       .when '/login',
         templateUrl: 'views/auth/login.html'
-        controller: 'LoginController'
+        controller: 'AuthLoginController'
+
       .when '/',
         templateUrl: 'views/main.html'
         controller: 'MainController'
         resolve:
           expiry: ($http) ->
             $http.get apiRootUrl + '/auth/v1/expiry'
+
       .otherwise
         redirectTo: '/login'
   ])
 
   .run(['$rootScope', '$location', 'AuthenticationService', 'FlashService',
     ($rootScope, $location, AuthenticationService, FlashService) ->
-      routesThatRequireAuth = ['/']
+      routesThatRequireAuth = ['/', '/reservations']
 
       $rootScope.$on '$routeChangeStart', (event, next, current) ->
         #TODO
@@ -40,7 +49,7 @@ angular.module('findPlayApp', [])
   ])
 
   .config(['$httpProvider', ($httpProvider) ->
-    logOutUserOn401 = [
+    logsOutUserOn401 = [
       '$location', '$q', 'SessionService', 'FlashService',
       ($location, $q, SessionService, FlashService) ->
         success = (response) ->
@@ -49,7 +58,7 @@ angular.module('findPlayApp', [])
         error = (response) ->
           if response.status is 401  # HTTP NotAuthorized
             SessionService.unset 'authenticated'
-            FlashService.show response.data.flash
+            FlashService.show response.data.error.message or response.data.flash
             $location.path '/login'
             $q.reject response
 
@@ -59,5 +68,8 @@ angular.module('findPlayApp', [])
         (promise) ->
           promise.then success, error
     ]
+
+    #TODO
+    #$httpProvider.responseInterceptors.push logsOutUserOn401
   ])
 

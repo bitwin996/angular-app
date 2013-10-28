@@ -23,7 +23,7 @@ class User(ndb.Model):
 
   def toMessage(self):
     message = UserMessage(
-      id = self.key.urlsafe(),
+      id = self.key.urlsafe() if self.key else None,
       email = self.email
       )
     return message

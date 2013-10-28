@@ -1,11 +1,11 @@
 'use strict'
 
-describe 'controller: LoginController', ->
+describe 'controller: AuthLoginController', ->
 
   # load the controller's module
   beforeEach module 'findPlayApp'
 
-  LoginController = {}
+  AuthLoginController = {}
   scope = {}
 
   # Initialize the controller and a mock scope
@@ -15,7 +15,7 @@ describe 'controller: LoginController', ->
     @scope = $rootScope.$new()
     @redirect = spyOn $location, 'path'
 
-    LoginController = $controller 'LoginController',
+    AuthLoginController = $controller 'AuthLoginController',
       $scope: @scope
       $location: $location
       AuthenticationService: AuthenticationService
