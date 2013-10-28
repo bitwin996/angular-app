@@ -1,20 +1,15 @@
 #!/usr/bin/env python
 
+import datetime
 import endpoints
 from protorpc import remote,messages,message_types
 
-from models.user import User,UserMessage
-from models.reservation import Reservation,ReservationMessage
-
-import datetime
+from models.user import User,UserMessage,UsersMessage
+from models.reservation import Reservation,ReservationMessage,ReservationsMessage
 
 
-class UsersMessage(messages.Message):
-  users = messages.MessageField(UserMessage, 1, repeated=True)
-
-class ReservationsMessage(messages.Message):
-  reservations = messages.MessageField(ReservationMessage, 1, repeated=True)
-
+#class UsersMessage(messages.Message):
+#  users = messages.MessageField(UserMessage, 1, repeated=True)
 
 # URL: /_ah/api/fixtures/v1
 @endpoints.api(name='fixtures', version='v1', description='Fixtures API')

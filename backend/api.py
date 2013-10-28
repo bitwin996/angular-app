@@ -16,17 +16,18 @@
 #
 
 import endpoints
-#from protorpc import remote,messages,message_types
-
-#from messages import LoginMessage
-#from models.user import User,UserMessage
-
 
 from handlers.auth import AuthApi
+from handlers.reservations import ReservationsApi
 from handlers.fixtures import FixturesApi
+
+from inspect import getmembers
+from pprint import pprint
+#pprint (vars(self))
 
 apis = [
     AuthApi,
+    ReservationsApi,
     FixturesApi
     ]
 

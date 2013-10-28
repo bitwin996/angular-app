@@ -21,9 +21,6 @@ handlers:
   static_files: public/\1
   upload: public/(.*)
 
-- url: .*
-  script: main.app
-
 
 libraries:
 - name: webapp2

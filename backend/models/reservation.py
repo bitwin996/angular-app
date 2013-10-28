@@ -5,16 +5,24 @@ from protorpc import remote,messages,message_types
 
 from models.user import User,UserMessage
 
+from inspect import getmembers
+from pprint import pprint
+#pprint (vars(self))
+
+
 class ReservationMessage(messages.Message):
   id = messages.StringField(1, required=False)
-  user = messages.MessageField(UserMessage, 2)
+  organizer = messages.MessageField(UserMessage, 2, required=False)
   started_at = message_types.DateTimeField(3, required=True)
   finished_at = message_types.DateTimeField(4, required=False)
   place = messages.StringField(5, required=False)
 
+class ReservationsMessage(messages.Message):
+  reservations = messages.MessageField(ReservationMessage, 1, repeated=True)
+
 
 class Reservation(ndb.Model):
-  user = ndb.StructuredProperty(User)
+  organizer = ndb.StructuredProperty(User)
   started_at = ndb.DateTimeProperty(required=True)
   finished_at = ndb.DateTimeProperty(required=True)
   #minutes = ndb.IntegerProperty(required=False)
@@ -23,9 +31,10 @@ class Reservation(ndb.Model):
   updated_at = ndb.DateTimeProperty(required=False, auto_now=True)
 
   def toMessage(self):
+    pprint(self.organizer)
     message = ReservationMessage(
       id = self.key.urlsafe(),
-      user = self.user.toMessage(),
+      organizer = self.organizer.toMessage() if self.organizer else None,
       started_at = self.started_at,
       finished_at = self.finished_at,
       place = self.place
