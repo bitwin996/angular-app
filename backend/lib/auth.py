@@ -1,7 +1,7 @@
 from google.appengine.ext import ndb
 from gaesessions import get_current_session
 
-from models import User
+from models.user import User
 
 
 class Auth():

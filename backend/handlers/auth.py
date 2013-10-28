@@ -2,7 +2,7 @@ import endpoints
 from protorpc import remote,messages,message_types
 from gaesessions import get_current_session
 
-from models import User,UserMessage
+from models.user import User,UserMessage
 from lib.auth import Auth
 
 import logging

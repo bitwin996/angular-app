@@ -16,14 +16,14 @@
 #
 
 import endpoints
-from protorpc import remote,messages,message_types
+#from protorpc import remote,messages,message_types
 
-from messages import LoginMessage
-from models import User,UserMessage
+#from messages import LoginMessage
+#from models.user import User,UserMessage
 
 
-from auth import AuthApi
-from fixtures import FixturesApi
+from handlers.auth import AuthApi
+from handlers.fixtures import FixturesApi
 
 apis = [
     AuthApi,
@@ -31,53 +31,3 @@ apis = [
     ]
 
 app = endpoints.api_server(apis, restricted=False)
-
-
-"""
-# URL: /_ah/api/find-play/v1
-@endpoints.api(name='find-play', version='v1', description='FindPlay API')
-class FindPlayApi(remote.Service):
-
-  # URL: /_ah/api/find-play/v1/auth/login
-  @endpoints.method(message_types.VoidMessage, LoginMessage, path='auth/login', http_method='GET')
-  def get_login(self, request):
-    result = LoginMessage(
-      isAuth = True
-      )
-    return result
-
-  # URL: /_ah/api/find-play/v1/test/user
-  @endpoints.method(message_types.VoidMessage, UserMessage, path='test/user', http_method='GET')
-  def get_test_user(self, request):
-    user = User(
-      email = 'test@gmail.com',
-      password = 'test'
-      )
-    user.put()
-
-    return user.toMessage()
-
-
-  # URL: /_ah/api/find-play/v1/account
-  @endpoints.method(Account, Account, path='account', http_method='GET')
-  def get_account(self, request):
-    key = 'aaaa'
-    account = Account(
-      id = key,
-      name = 'test user',
-      email = 'test@gmail.com'
-      )
-    return account
-
-  # URL: /_ah/api/find-play/v1/account
-  @endpoints.method(Account, Account, path='account', http_method='POST')
-  def post_account(self, request):
-    user = User(
-      name = request.name,
-      email = request.email
-      )
-
-    key = user.put()
-    return user.toMessage()
-"""
-
