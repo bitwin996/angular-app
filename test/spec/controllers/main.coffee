@@ -1,6 +1,6 @@
 'use strict'
 
-describe 'Controller: MainController', () ->
+describe 'Controller: MainController', ->
 
   # load the controller's module
   beforeEach module 'findPlayApp'
@@ -15,5 +15,5 @@ describe 'Controller: MainController', () ->
       $scope: scope
     }
 
-  it 'should attach a list of awesomeThings to the scope', () ->
+  xit 'should attach a list of awesomeThings to the scope', ->
     expect(scope.awesomeThings.length).toBe 3

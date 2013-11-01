@@ -16,6 +16,9 @@ class LoginRequest(messages.Message):
   email = messages.StringField(1, required=True)
   password = messages.StringField(2, required=False)
 
+class CsrfTokenResponse(messages.Message):
+  csrf_token = messages.StringField(1, required=True)
+
 
 # URL: /_ah/api/auth/v1
 @endpoints.api(name='auth', version='v1', description='Auth API')
@@ -39,6 +42,16 @@ class AuthApi(remote.Service):
   def get_logout(self, request):
     Auth.logout()
     return LogoutResponse(flash = 'Logged Out!!')
+
+
+  # URL: /_ah/api/auth/v1/csrf_token
+  @endpoints.method(message_types.VoidMessage, CsrfTokenResponse, path='csrf_token', http_method='GET')
+  def get_csrf_token(self, request):
+    response = CsrfTokenResponse(
+        csrf_token = 'abcde'
+        )
+
+    return response
 
 
   # URL: /_ah/api/auth/v1/expiry

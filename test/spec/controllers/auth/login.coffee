@@ -10,9 +10,9 @@ describe 'controller: AuthLoginController', ->
 
   # Initialize the controller and a mock scope
   beforeEach inject ($controller, $rootScope, $location, AuthenticationService, $httpBackend) ->
+    @scope = $rootScope.$new()
     @$location = $location
     @$httpBackend = $httpBackend
-    @scope = $rootScope.$new()
     @redirect = spyOn $location, 'path'
 
     AuthLoginController = $controller 'AuthLoginController',

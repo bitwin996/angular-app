@@ -1,14 +1,14 @@
 'use strict'
 
-describe 'Service: session', () ->
+describe 'Service: session', ->
 
   # load the service's module
   beforeEach module 'findPlayApp'
 
   # instantiate service
-  session = {}
-  beforeEach inject (_session_) ->
-    session = _session_
+  SessionService = {}
+  beforeEach inject (_SessionService_) ->
+    SessionService = _SessionService_
 
-  it 'should do something', () ->
-    expect(!!session).toBe true
+  it 'should do something', ->
+    expect(!!SessionService).toBe true
