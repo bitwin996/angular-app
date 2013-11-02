@@ -15,7 +15,7 @@ module.exports = function(config) {
       'app/bower_components/jquery/jquery.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/bower_components/angular-sanitize/angular-sanitize.js',
-      'app/scripts/*.coffee',
+      'app/scripts/app.coffee',
       'app/scripts/**/*.coffee',
       'test/mock/**/*.coffee',
       'test/spec/**/*.coffee'
@@ -25,7 +25,7 @@ module.exports = function(config) {
     exclude: [],
 
     // web server port
-    port: 8080,
+    port: 8090,
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG

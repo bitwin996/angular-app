@@ -395,6 +395,23 @@ module.exports = (grunt) ->
         runnerPort: 9004
         singleRun: false
 
+    protractor:
+      options:
+        configFile: './protractor.conf.js'
+        keepAlive: true
+        debug: true
+        args:
+          seleniumAddress: null
+          seleniumServerJar: './selenium/selenium-server-standalone-2.35.0.jar'
+          seleniumPort: null
+          baseUrl: 'http://localhost:8000'
+          rootElement: 'body'
+          specs: [
+            '.tmp/e2e/*.coffee'
+          ]
+          includeStackTrace: true
+          verbose: true
+
     cdnify:
       dist:
         html: ["<%= yeoman.dist %>/*.html"]

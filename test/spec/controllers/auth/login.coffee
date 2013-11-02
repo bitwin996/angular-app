@@ -9,11 +9,12 @@ describe 'controller: AuthLoginController', ->
   scope = {}
 
   # Initialize the controller and a mock scope
-  beforeEach inject ($controller, $rootScope, $location, AuthenticationService, $httpBackend) ->
+  beforeEach inject ($controller, $rootScope, $location, AuthenticationService, $httpBackend, apiRootUrl) ->
     @scope = $rootScope.$new()
     @$location = $location
     @$httpBackend = $httpBackend
     @redirect = spyOn $location, 'path'
+    @apiRootUrl = apiRootUrl
 
     AuthLoginController = $controller 'AuthLoginController',
       $scope: @scope
@@ -21,11 +22,11 @@ describe 'controller: AuthLoginController', ->
       AuthenticationService: AuthenticationService
 
   describe 'successfully logging in', ->
-    xit 'should redirect you to /home', ->
+    it 'should redirect you to /home', ->
       # arrange, act, assert
 
       # arrange
-      @$httpBackend.expectPOST('/login', @scope.crendentials).respond 200
+      @$httpBackend.expectPOST(@apiRootUrl + '/auth/v1/login', @scope.crendentials).respond 200
       @scope.credentials = email: 'test@gmail.com', password: 'aaa'
 
       # act

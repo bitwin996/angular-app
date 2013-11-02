@@ -9,16 +9,27 @@ module.exports = function(config) {
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['ng-scenario'],
 
+    plugins: [
+      'karma-ng-scenario',
+      'karma-phantomjs-launcher',
+      'karma-coffee-preprocessor'
+    ],
+
     // list of files / patterns to load in the browser
     files: [
-      'test/e2e/**/*.coffee'
+      //'app/bower_components/jquery/jquery.js',
+      //'app/bower_components/angular/angular.js',
+      //'app/bower_components/angular-mocks/angular-mocks.js',
+      'test/e2e/**/*.coffee',
+      //'app/scripts/app.coffee',
+      //'app/scripts/**/*.coffee'
     ],
 
     // list of files / patterns to exclude
     exclude: [],
 
     // web server port
-    port: 8080,
+    port: 8090,
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG

@@ -17,8 +17,9 @@ angular.module('findPlayApp', ['ngSanitize'])
         templateUrl: 'views/reservations/list.html'
         controller: 'ReservationsListController'
         resolve:
-          reservations: ($http) ->
+          reservations: ['$http', ($http) ->
             $http.get apiRootUrl + '/reservations/v1/query'
+          ]
 
       .when '/login',
         templateUrl: 'views/auth/login.html'
@@ -28,8 +29,9 @@ angular.module('findPlayApp', ['ngSanitize'])
         templateUrl: 'views/main.html'
         controller: 'MainController'
         resolve:
-          expiry: ($http) ->
+          expiry: ['$http', ($http) ->
             $http.get apiRootUrl + '/auth/v1/expiry'
+          ]
 
       .otherwise
         redirectTo: '/login'
